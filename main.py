@@ -6,48 +6,27 @@ st.title("Simple Streamlit App")
 # Add a text input box
 user_input = st.text_input("Enter your name")
 
-"""This is the logic for ingesting Notion data into LangChain."""
-import pickle
-import faiss
-from pathlib import Path
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.vectorstores import FAISS
-from langchain.embeddings import OpenAIEmbeddings
-import os
-#from apikey import openai_apikey
+    
+from InstructorEmbedding import INSTRUCTOR
+model = INSTRUCTOR('hkunlp/instructor-xl')
 
-#licence setup
-#os.environ['OPENAI_API_KEY'] = openai_apikey
+# Define the story
+story = "Once upon a time, there was a brave knight named Sir Arthur. He embarked on a quest to rescue a princess from a wicked dragon."
 
-# Here we load in the data in the format that csv exports it in.
-#ps = list(Path("raw_data/INDIA/").glob("**/*.csv"))
+# Define instructions for different story segments
+instructions = [
+    "Capture the bravery and courage of the knight:",
+    "Describe the quest and its purpose:",
+    "Portray the princess as in need of rescue:",
+    "Highlight the wickedness of the dragon:"
+]
 
-#data = []
-#sources = []
-#for p in ps:
-  #  with open(p) as f:
- #       data.append(f.read())
-#    sources.append(p)
+# Encode story segments with corresponding instructions
+embeddings = model.encode([[instruction, segment] for instruction, segment in zip(instructions, story.split("."))])
 
-# Here we split the documents, as needed, into smaller chunks.
-# We do this due to the context limits of the LLMs.
-#text_splitter = CharacterTextSplitter(chunk_size=1500, separator="\n")
-#docs = []
-#metadatas = []
-from langchain.embeddings import HuggingFaceInstructEmbeddings
-
-instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl",model_kwargs={"device": "cuda"})
-
-#for i, d in enumerate(data):
-#    splits = text_splitter.split_text(d)
-#    docs.extend(splits)
-#    metadatas.extend([{"source": sources[i]}] * len(splits))
-
-docs = "This is the logic for ingesting Notion data into LangChain"
-# Here we create a vector store from the documents and save it to disk.
-store = FAISS.from_texts(docs, instructor_embeddings)#, metadatas=metadatas)
-faiss.write_index(store.index, "in_docs.index")
-store.index = None
-with open("in_faiss_store.pkl", "wb") as f:
-    pickle.dump(store, f)
-
+# Print the embeddings for each segment
+for i, (instruction, segment) in enumerate(zip(instructions, story.split("."))):
+    print(f"Instruction: {instruction}")
+    print(f"Segment: {segment.strip()}")
+    print(f"Embeddings: {embeddings[i]}")
+    print()
