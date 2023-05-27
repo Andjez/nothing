@@ -43,7 +43,7 @@ instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instruc
 #    docs.extend(splits)
 #    metadatas.extend([{"source": sources[i]}] * len(splits))
 
-docs = "metadatas.extend([{"source": sources[i]}] * len(splits))"
+docs = "This is the logic for ingesting Notion data into LangChain"
 # Here we create a vector store from the documents and save it to disk.
 store = FAISS.from_texts(docs, instructor_embeddings)#, metadatas=metadatas)
 faiss.write_index(store.index, "in_docs.index")
