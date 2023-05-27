@@ -1,32 +1,26 @@
+#from langchain.vectorstores import Chroma
+#from langchain.text_splitter import RecursiveCharacterTextSplitter
+#from langchain.llms import OpenAI
+#from langchain.chains import RetrievalQA
+#from langchain.document_loaders import PyPDFLoader
+#from langchain.document_loaders import DirectoryLoader
+#from InstructorEmbedding import INSTRUCTOR
+#from langchain.embeddings import HuggingFaceInstructEmbeddings
+# import libraries
 import streamlit as st
+import tkinter as tk
+from tkinter import filedialog
 
-# Set a title for the web app
-st.title("Simple Streamlit App")
+# Set up tkinter
+root = tk.Tk()
+root.withdraw()
 
-# Add a text input box
-user_input = st.text_input("Enter your name")
+# Make folder picker dialog appear on top of other windows
+root.wm_attributes('-topmost', 1)
 
-    
-from InstructorEmbedding import INSTRUCTOR
-model = INSTRUCTOR('hkunlp/instructor-large')
-
-# Define the story
-story = "Once upon a time, there was a brave knight named Sir Arthur. He embarked on a quest to rescue a princess from a wicked dragon."
-
-# Define instructions for different story segments
-instructions = [
-    "Capture the bravery and courage of the knight:",
-    "Describe the quest and its purpose:",
-    "Portray the princess as in need of rescue:",
-    "Highlight the wickedness of the dragon:"
-]
-
-# Encode story segments with corresponding instructions
-embeddings = model.encode([[instruction, segment] for instruction, segment in zip(instructions, story.split("."))])
-
-# Print the embeddings for each segment
-for i, (instruction, segment) in enumerate(zip(instructions, story.split("."))):
-    print(f"Instruction: {instruction}")
-    print(f"Segment: {segment.strip()}")
-    print(f"Embeddings: {embeddings[i]}")
-    print()
+# Folder picker button
+st.title('Folder Picker')
+st.write('Please select a folder:')
+clicked = st.button('Folder Picker')
+if clicked:
+    dirname = st.text_input('Selected folder:', filedialog.askdirectory(master=root))
