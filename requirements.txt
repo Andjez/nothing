@@ -5,3 +5,4 @@ pathlib
 langchain
 InstructorEmbedding
 transformers
+sentence_transformers
