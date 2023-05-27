@@ -8,7 +8,7 @@ user_input = st.text_input("Enter your name")
 
     
 from InstructorEmbedding import INSTRUCTOR
-model = INSTRUCTOR('hkunlp/instructor-xl')
+model = INSTRUCTOR('hkunlp/instructor-large')
 
 # Define the story
 story = "Once upon a time, there was a brave knight named Sir Arthur. He embarked on a quest to rescue a princess from a wicked dragon."
