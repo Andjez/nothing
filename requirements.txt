@@ -1,4 +1,4 @@
-pytorch
+torch
 pickle5
 faiss-cpu
 pathlib
