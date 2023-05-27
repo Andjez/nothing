@@ -1,8 +1,1 @@
-torch
-pickle5
-faiss-cpu
-pathlib
-langchain
-InstructorEmbedding
-transformers
-sentence_transformers
+
