@@ -1,1 +1,7 @@
-
+streamlit
+pickle
+faiss-cpu
+pathlib
+langchain
+InstructorEmbedding
+transformers
