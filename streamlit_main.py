@@ -60,6 +60,9 @@ if yt_link:
         metadatas.extend([{"source": source[i]}] * len(splits))
 
     store = FAISS.from_texts(data, instructor_embeddings, metadatas=metadatas)
+    chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
+
+
 
 ##    parser = argparse.ArgumentParser(description='Ask a question to the youtube video.')
 ##    parser.add_argument('question', type=str, help='The question to ask the youtube video')
