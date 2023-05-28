@@ -21,6 +21,7 @@ from langchain.chat_models import ChatOpenAI
 from youtube_transcript_api import YouTubeTranscriptApi
 from langchain.chains import VectorDBQAWithSourcesChain
 from langchain.chains import RetrievalQAWithSourcesChain
+from langchain.embeddings import HuggingFaceInstructEmbeddings
 
 #embedding
 instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-large", model_kwargs={"device": "cpu"})
