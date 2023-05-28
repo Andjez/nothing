@@ -1,0 +1,11 @@
+langchain==0.0.170
+openai
+faiss-cpu
+streamlit
+streamlit-chat
+tiktoken
+youtube_transcript_api
+InstructorEmbedding
+sentence_transformers
+
+
