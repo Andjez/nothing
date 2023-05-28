@@ -1,3 +1,10 @@
 langchain
 openai
 streamlit
+unstructured
+pdf2image
+pinecone-client
+tiktoken
+pikepdf
+InstructorEmbedding
+sentence-transformers
