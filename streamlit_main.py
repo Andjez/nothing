@@ -22,7 +22,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from langchain.chains import VectorDBQAWithSourcesChain
 from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-
+os.environ['OPENAI_API_KEY'] = openai_apikey
 #embedding
 instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
 
