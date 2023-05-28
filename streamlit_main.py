@@ -23,7 +23,7 @@ from langchain.chains import VectorDBQAWithSourcesChain
 from langchain.chains import RetrievalQAWithSourcesChain
 
 #embedding
-instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-large", model_kwargs={"device": "cuda"})
+instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-large", model_kwargs={"device": "cpu"})
 
 def extract_video_code(url):
     pattern = r"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:embed\/|watch\?v=)|youtu\.be\/)([\w-]+)"
