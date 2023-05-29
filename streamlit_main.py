@@ -11,7 +11,6 @@
 import faiss
 import pickle
 import os, re
-#import argparse
 import streamlit as st
 from langchain import OpenAI
 from apikey import openai_apikey
@@ -22,7 +21,9 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from langchain.chains import VectorDBQAWithSourcesChain
 from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.embeddings import HuggingFaceInstructEmbeddings
+
 os.environ['OPENAI_API_KEY'] = openai_apikey
+
 #embedding
 instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
 
@@ -35,15 +36,6 @@ def extract_video_code(url):
     else:
         return None
 
-# Setup
-
-yt_link = st.text_input("enter youtube link here!")
-if yt_link:
-    chain = load_chain()
-    
-    #chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
-
-# Load the LangChain.
 @st.cache_resource
 def load_chain():
     yt_id = extract_video_code(yt_link)
@@ -68,16 +60,18 @@ def load_chain():
 
     store = FAISS.from_texts(data, instructor_embeddings, metadatas=metadatas)
     chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
-    #chain = RetrievalQAWithSourcesChain.from_chain_type(OpenAI(temperature=0), chain_type="stuff", retriever=store.as_retriever())
     return chain
 
+yt_link = st.text_input("enter youtube link here!")
+
+if yt_link:
+    chain = load_chain()
 
 if "generated" not in st.session_state:
     st.session_state["generated"] = []
 
 if "past" not in st.session_state:
     st.session_state["past"] = []
-
 
 def get_text():
     input_text = st.text_input("You: ", "")
@@ -92,11 +86,7 @@ if user_input:
     st.session_state.past.append(user_input)
     st.session_state.generated.append(output)
 
-
 if st.session_state["generated"]:
-
     for i in range(len(st.session_state["generated"]) - 1, -1, -1):
         message(st.session_state["generated"][i], key=str(i))
         message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
-
-
