@@ -7,5 +7,5 @@ tiktoken
 youtube_transcript_api
 InstructorEmbedding
 sentence_transformers
-
+re
 
