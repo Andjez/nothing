@@ -60,20 +60,8 @@ if yt_link:
         metadatas.extend([{"source": source[i]}] * len(splits))
 
     store = FAISS.from_texts(data, instructor_embeddings, metadatas=metadatas)
-    chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
-
-
-
-##    parser = argparse.ArgumentParser(description='Ask a question to the youtube video.')
-##    parser.add_argument('question', type=str, help='The question to ask the youtube video')
-##    args = parser.parse_args()
-##
-##    chain = RetrievalQAWithSourcesChain.from_chain_type(llm=ChatOpenAI(temperature=0), retriever=store.as_retriever())
-##
-##    result = chain({"question": args.question})
-##
-##    st.write(f"Answer: {result['answer']}")
-##    st.write(f"Sources: {result['sources']}")
+    chain = load_chain()
+    #chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
 
 # Load the LangChain.
 @st.cache_resource
