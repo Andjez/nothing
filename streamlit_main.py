@@ -39,6 +39,13 @@ def extract_video_code(url):
 
 yt_link = st.text_input("enter youtube link here!")
 if yt_link:
+    chain = load_chain()
+    
+    #chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
+
+# Load the LangChain.
+@st.cache_resource
+def load_chain():
     yt_id = extract_video_code(yt_link)
     transcript = YouTubeTranscriptApi.get_transcript(yt_id)
     my_dict = str(transcript)
@@ -60,12 +67,6 @@ if yt_link:
         metadatas.extend([{"source": source[i]}] * len(splits))
 
     store = FAISS.from_texts(data, instructor_embeddings, metadatas=metadatas)
-    chain = load_chain()
-    #chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
-
-# Load the LangChain.
-@st.cache_resource
-def load_chain():
     chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
     #chain = RetrievalQAWithSourcesChain.from_chain_type(OpenAI(temperature=0), chain_type="stuff", retriever=store.as_retriever())
     return chain
