@@ -44,8 +44,10 @@ def load_chain(yt_link):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
     store = Chroma.from_texts(texts, instructor_embeddings)
-    chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
-    return chain
+    retriever = store.as_retriever(search_kwargs={"k": 3})
+    #RetrievalQA.from_chain_type(llm=OpenAI(temperature=0.2, ),chain_type="stuff",retriever=retriever,return_source_documents=True)
+    #chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
+    return retriever#chain
 
 yt_link = st.text_input("enter youtube link here!")
 
@@ -59,9 +61,9 @@ def get_text():
 user_input = get_text()
 
 if user_input:
-    result = chain({"question": user_input})
-    output = f"Answer: {result['answer']}\nSources: {result['sources']}"
-
+    #result = chain({"question": user_input})
+    #output = f"Answer: {result['answer']}\nSources: {result['sources']}"
+    output = chain.get_relevant_documents(user_input)
     st.session_state.past.append(user_input)
     st.session_state.generated.append(output)
 
