@@ -1,6 +1,7 @@
 langchain==0.0.170
 chroma
 streamlit-chat
+openai
 streamlit
 youtube-transcript-api
 pytube
