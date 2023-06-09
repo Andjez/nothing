@@ -17,6 +17,7 @@ from apikey import openai_apikey
 from streamlit_chat import message
 from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
+from langchain.vectorstores import Chroma
 from youtube_transcript_api import YouTubeTranscriptApi
 from langchain.chains import VectorDBQAWithSourcesChain
 from langchain.chains import RetrievalQAWithSourcesChain
@@ -39,12 +40,11 @@ instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instruc
 
 @st.cache_resource
 def load_chain(yt_link):
-
     loader = YoutubeLoader.from_youtube_url(yt_link, add_video_info=True)
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
-    store = FAISS.from_texts(data, instructor_embeddings)
+    store = Chroma.from_documents(texts, instructor_embeddings)
     chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
     return chain
 
