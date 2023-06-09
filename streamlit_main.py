@@ -8,14 +8,12 @@
 # Copyright:   (c) Androse_Jes 2023
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
-import faiss
-import pickle
+
 import os, re
 import streamlit as st
 from langchain import OpenAI
 from apikey import openai_apikey
 from streamlit_chat import message
-from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
 from langchain.vectorstores import Chroma
 from youtube_transcript_api import YouTubeTranscriptApi
