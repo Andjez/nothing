@@ -33,11 +33,12 @@ if "past" not in st.session_state:
 os.environ['OPENAI_API_KEY'] = openai_apikey
 
 #embedding
-instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
+#instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
 
 
 @st.cache_resource
 def load_chain(yt_link):
+    instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
     loader = YoutubeLoader.from_youtube_url(yt_link, add_video_info=True)
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
