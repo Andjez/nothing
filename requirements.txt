@@ -5,3 +5,5 @@ openai
 streamlit
 youtube-transcript-api
 pytube
+InstructorEmbedding
+sentence-transformers
