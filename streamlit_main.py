@@ -21,57 +21,37 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from langchain.chains import VectorDBQAWithSourcesChain
 from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-
-os.environ['OPENAI_API_KEY'] = openai_apikey
-
-#embedding
-instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
-
-def extract_video_code(url):
-    pattern = r"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:embed\/|watch\?v=)|youtu\.be\/)([\w-]+)"
-    match = re.match(pattern, url)
-
-    if match:
-        return match.group(1)
-    else:
-        return None
-
-@st.cache_resource
-def load_chain():
-    yt_id = extract_video_code(yt_link)
-    transcript = YouTubeTranscriptApi.get_transcript(yt_id)
-    my_dict = str(transcript)
-    data = []
-    source = []
-
-    # Extract 'text' and 'start' values from each dictionary item
-    for item in transcript:
-        data.append(item['text'])
-        source.append(item['start'])
-
-    from langchain.text_splitter import CharacterTextSplitter
-    text_splitter = CharacterTextSplitter(chunk_size=1500, separator="\n")
-    docs = []
-    metadatas = []
-    for i, d in enumerate(data):
-        splits = text_splitter.split_text(d)
-        docs.extend(splits)
-        metadatas.extend([{"source": source[i]}] * len(splits))
-
-    store = FAISS.from_texts(data, instructor_embeddings, metadatas=metadatas)
-    chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
-    return chain
-
-yt_link = st.text_input("enter youtube link here!")
-
-if yt_link:
-    chain = load_chain()
+from langchain.document_loaders import YoutubeLoader
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 if "generated" not in st.session_state:
     st.session_state["generated"] = []
 
 if "past" not in st.session_state:
     st.session_state["past"] = []
+
+os.environ['OPENAI_API_KEY'] = openai_apikey
+
+#embedding
+instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
+
+
+@st.cache_resource
+def load_chain(yt_link):
+
+    loader = YoutubeLoader.from_youtube_url(yt_link, add_video_info=True)
+    documents = loader.load()
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
+    texts = text_splitter.split_documents(documents)
+    store = FAISS.from_texts(data, instructor_embeddings)
+    chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
+    return chain
+
+yt_link = st.text_input("enter youtube link here!")
+
+if yt_link:
+    chain = load_chain(yt_link)
 
 def get_text():
     input_text = st.text_input("You: ", "")
