@@ -43,7 +43,7 @@ def load_chain(yt_link):
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
-    store = Chroma.from_documents(texts, instructor_embeddings)
+    store = Chroma.from_texts(texts, instructor_embeddings)
     chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
     return chain
 
