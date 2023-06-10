@@ -49,7 +49,7 @@ col1,col2 = st.columns(2)
 with col1:
     if st.button("Clear Database"):
     # Clears all st.cache_resource caches:
-    st.cache_resource.clear()
+        st.cache_resource.clear()
  with col2:
     if st.button("Clear History"):
         st.session_state["generated"] = []
