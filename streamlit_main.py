@@ -23,6 +23,9 @@ from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.document_loaders import YoutubeLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+import faiss
+from langchain.vectorstores import FAISS
+
 
 if "generated" not in st.session_state:
     st.session_state["generated"] = []
@@ -50,7 +53,7 @@ def load_chain(yt_link):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
     print("1")
-    store = Chroma.from_documents(documents=texts,embedding=instructor_embeddings)
+    store = FAISS.from_documents(documents=texts,embedding=instructor_embeddings)
     print("2")
     retriever = store.as_retriever(search_kwargs={"k": 3})
     print("3")
