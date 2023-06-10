@@ -49,8 +49,11 @@ def load_chain(yt_link):
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
+    print("1")
     store = Chroma.from_documents(documents=texts,embedding=instructor_embeddings)
+    print("2")
     retriever = store.as_retriever(search_kwargs={"k": 3})
+    print("3")
     return retriever
 
 yt_link = st.text_input("enter youtube link here!")
