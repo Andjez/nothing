@@ -77,7 +77,8 @@ if user_input:
     output = docs[0].page_content
     source_01 = docs[0].metadata.get('source')
     time_sec_01 =docs[0].metadata.get('length')
-     
+    with st.sidebar:
+        add_video = st.video(f'https://youtu.be/{source_01}',start = time_sec_01) 
     st.session_state.past.append(user_input)
     st.session_state.generated.append(output)
     st.session_state.source.append(source_01)
@@ -86,6 +87,6 @@ if user_input:
 if st.session_state["generated"]:
     for i in range(len(st.session_state["generated"]) - 1, -1, -1):
         message(st.session_state["generated"][i], key=str(i))
-        message(st.session_state["source"][i], key=str(i+99))
-        message(st.session_state["time_sec"][i], key=str(i+999))
+        #message(st.session_state["source"][i], key=str(i+99))
+        #message(st.session_state["time_sec"][i], key=str(i+999))
         message(st.session_state["past"][i], is_user=True, key=str(i+9999) + "_user")
