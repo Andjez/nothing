@@ -78,7 +78,7 @@ if user_input:
     source_01 = docs[0].metadata.get('source')
     time_sec_01 =docs[0].metadata.get('length')
     with st.sidebar:
-        add_video = st.video(f'https://youtu.be/{source_01}',start = time_sec_01) 
+        add_video = st.video(f'https://youtu.be/{source_01}',start_time=time_sec_01) 
     st.session_state.past.append(user_input)
     st.session_state.generated.append(output)
     st.session_state.source.append(source_01)
