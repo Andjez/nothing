@@ -67,7 +67,7 @@ user_input = get_text()
 if user_input:
     #result = chain({"question": user_input})
     #output = f"Answer: {result['answer']}\nSources: {result['sources']}"
-    docs = retriever.get_relevant_documents(user_input)
+    docs = chain.get_relevant_documents(user_input)
     output = docs[0].page_content
     source_01 = docs[0].metadata.get('source')
     time_sec_01 =docs[0].metadata.get('length')
