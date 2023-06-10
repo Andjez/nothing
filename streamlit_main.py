@@ -12,7 +12,7 @@
 import os, re
 import streamlit as st
 from langchain import OpenAI
-from apikey import openai_apikey
+#from apikey import openai_apikey
 from streamlit_chat import message
 from langchain.chat_models import ChatOpenAI
 from langchain.vectorstores import Chroma
@@ -41,7 +41,7 @@ if "source" not in st.session_state:
 if "time_sec" not in st.session_state:
     st.session_state["time_sec"] = []
 st.set_page_config(page_title="Youtube Chatbot", page_icon="🃏")
-os.environ['OPENAI_API_KEY'] = openai_apikey
+os.environ['OPENAI_API_KEY'] = st.secrets["api_key"]
 
 #embedding
 #instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
