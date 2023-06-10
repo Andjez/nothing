@@ -38,7 +38,7 @@ if "source" not in st.session_state:
     
 if "time_sec" not in st.session_state:
     st.session_state["time_sec"] = []
-
+st.set_page_config(page_title=’TrekViz’, page_icon=”🖖”)
 os.environ['OPENAI_API_KEY'] = openai_apikey
 
 #embedding
