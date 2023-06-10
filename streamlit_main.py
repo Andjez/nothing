@@ -63,6 +63,7 @@ yt_link = st.text_input("enter youtube link here!")
 if yt_link:
     chain = load_chain(yt_link)
     model = load_qa_chain(OpenAI(temperature=0), chain_type="stuff")
+    user_input = get_text()
 
 def get_text():
     input_text = st.text_input("You: ", "")
@@ -71,7 +72,6 @@ def get_text():
 
 
 if user_input:
-    user_input = get_text()
     with st.sidebar:
         add_video = st.video(yt_link,start_time=0)
     docs = chain.get_relevant_documents(user_input)
