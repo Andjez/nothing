@@ -72,7 +72,7 @@ user_input = get_text()
 
 if user_input:
     with st.sidebar:
-        add_video = st.video(f'https://youtu.be/{source_01}',start_time=0)
+        add_video = st.video(yt_link,start_time=0)
     docs = chain.get_relevant_documents(user_input)
     output = docs[0].page_content
     source_01 = docs[0].metadata.get('source')
