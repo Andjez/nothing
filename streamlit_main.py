@@ -30,6 +30,12 @@ if "generated" not in st.session_state:
 if "past" not in st.session_state:
     st.session_state["past"] = []
 
+if "source" not in st.session_state:
+    st.session_state["source"] = []
+    
+if "time_sec" not in st.session_state:
+    st.session_state["time_sec"] = []
+
 os.environ['OPENAI_API_KEY'] = openai_apikey
 
 #embedding
@@ -43,11 +49,9 @@ def load_chain(yt_link):
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
-    store = Chroma.from_texts(texts, instructor_embeddings)
+    store = Chroma.from_documents(documents=texts,embedding=instructor_embeddings)
     retriever = store.as_retriever(search_kwargs={"k": 3})
-    #RetrievalQA.from_chain_type(llm=OpenAI(temperature=0.2, ),chain_type="stuff",retriever=retriever,return_source_documents=True)
-    #chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=store)
-    return retriever#chain
+    return retriever
 
 yt_link = st.text_input("enter youtube link here!")
 
@@ -63,11 +67,19 @@ user_input = get_text()
 if user_input:
     #result = chain({"question": user_input})
     #output = f"Answer: {result['answer']}\nSources: {result['sources']}"
-    output = chain.get_relevant_documents(user_input)
+    docs = retriever.get_relevant_documents(user_input)
+    output = docs[0].page_content
+    source_01 = docs[0].metadata.get('source')
+    time_sec_01 =docs[0].metadata.get('length')
+     
     st.session_state.past.append(user_input)
     st.session_state.generated.append(output)
+    st.session_state.source.append(source_01)
+    st.session_state.time_sec.append(time_sec_01)
 
 if st.session_state["generated"]:
     for i in range(len(st.session_state["generated"]) - 1, -1, -1):
         message(st.session_state["generated"][i], key=str(i))
+        message(st.session_state["source"][i], key=str(i))
+        message(st.session_state["time_sec"][i], key=str(i))
         message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
