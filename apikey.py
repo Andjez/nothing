@@ -8,4 +8,4 @@
 # Copyright:   (c) Androse_Jes 2023
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
-openai_apikey = "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"
+openai_apikey = "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"
