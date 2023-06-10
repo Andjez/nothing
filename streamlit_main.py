@@ -42,7 +42,7 @@ if "time_sec" not in st.session_state:
     st.session_state["time_sec"] = []
 st.set_page_config(page_title="Youtube Chatbot", page_icon="🃏")
 os.environ['OPENAI_API_KEY'] = st.secrets["api_key"]
-
+user_input = ""
 #embedding
 #instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
 
