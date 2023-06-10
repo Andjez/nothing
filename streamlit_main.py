@@ -61,17 +61,13 @@ def load_chain(yt_link):
     return retriever
 
 yt_link = st.text_input("enter youtube link here!")
-
+def get_text():
+    input_text = st.text_input("You: ", "")
+    return input_text
 if yt_link:
     chain = load_chain(yt_link)
     model = load_qa_chain(OpenAI(temperature=0), chain_type="stuff")
     user_input = get_text()
-
-def get_text():
-    input_text = st.text_input("You: ", "")
-    return input_text
-
-
 
 if user_input:
     with st.sidebar:
