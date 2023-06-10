@@ -86,6 +86,6 @@ if user_input:
 if st.session_state["generated"]:
     for i in range(len(st.session_state["generated"]) - 1, -1, -1):
         message(st.session_state["generated"][i], key=str(i))
-        message(st.session_state["source"][i+99], key=str(i))
-        message(st.session_state["time_sec"][i+999], key=str(i))
-        message(st.session_state["past"][i+9999], is_user=True, key=str(i) + "_user")
+        message(st.session_state["source"][i], key=str(i+99))
+        message(st.session_state["time_sec"][i], key=str(i+999))
+        message(st.session_state["past"][i], is_user=True, key=str(i+9999) + "_user")
