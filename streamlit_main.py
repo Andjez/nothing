@@ -45,9 +45,17 @@ os.environ['OPENAI_API_KEY'] = st.secrets["api_key"]
 user_input = ""
 #embedding
 #instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
-if st.button("Clear All"):
+col1,col2 = st.columns(2)
+with col1:
+    if st.button("Clear Database"):
     # Clears all st.cache_resource caches:
     st.cache_resource.clear()
+ with col2:
+    if st.button("Clear History"):
+        st.session_state["generated"] = []
+        st.session_state["past"] = []
+        st.session_state["source"] = []
+        st.session_state["time_sec"] = []
 
 @st.cache_resource
 def load_chain(yt_link):
