@@ -77,8 +77,6 @@ if user_input:
     output = docs[0].page_content
     source_01 = docs[0].metadata.get('source')
     time_sec_01 =docs[0].metadata.get('length')
-    with st.sidebar:
-        add_video = st.video(f'https://youtu.be/{source_01}',start_time=0)#time_sec_01)
     answer = model.run(input_documents=docs, question=user_input)
     st.session_state.past.append(user_input)
     st.session_state.generated.append(answer)
