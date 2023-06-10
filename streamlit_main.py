@@ -68,9 +68,10 @@ def get_text():
     input_text = st.text_input("You: ", "")
     return input_text
 
-user_input = get_text()
+
 
 if user_input:
+    user_input = get_text()
     with st.sidebar:
         add_video = st.video(yt_link,start_time=0)
     docs = chain.get_relevant_documents(user_input)
