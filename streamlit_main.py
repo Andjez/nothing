@@ -57,7 +57,7 @@ with col2:
         st.session_state["source"] = []
         st.session_state["time_sec"] = []
         yt_link = ""
-        user_input = ""
+        st.session_state["foo"] = ""
 
 @st.cache_resource
 def embedding():
@@ -76,7 +76,7 @@ def load_chain(yt_link,instructor_embeddings):
 yt_link = st.text_input("enter youtube link here!")
 
 def get_text():
-    input_text = st.text_input("You: ", "")
+    input_text = st.text_input("You: ", key="foo")
     return input_text
 if yt_link:
     instructor_embeddings = embedding()
