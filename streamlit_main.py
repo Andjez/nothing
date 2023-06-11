@@ -60,7 +60,9 @@ with col2:
         user_input = ""
 
 @st.cache_resource
-instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
+def embedding():
+    instructor_embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base", model_kwargs={"device": "cpu"})
+    return instructor_embeddings
 
 def load_chain(yt_link,instructor_embeddings):
     loader = YoutubeLoader.from_youtube_url(yt_link, add_video_info=True)
@@ -77,6 +79,7 @@ def get_text():
     input_text = st.text_input("You: ", "")
     return input_text
 if yt_link:
+    instructor_embeddings = embedding()
     chain = load_chain(yt_link,instructor_embeddings)
     model = load_qa_chain(OpenAI(temperature=0), chain_type="stuff")
     user_input = get_text()
