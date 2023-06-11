@@ -49,6 +49,7 @@ col1,col2 = st.columns(2)
 with col1:
     if st.button("Clear All"):
     # Clears all st.cache_resource caches:
+        st.session_state["link"] = ""
         st.cache_resource.clear()
 with col2:
     if st.button("Clear History"):
@@ -56,7 +57,6 @@ with col2:
         st.session_state["past"] = []
         st.session_state["source"] = []
         st.session_state["time_sec"] = []
-        yt_link = ""
         st.session_state["foo"] = ""
 
 @st.cache_resource
@@ -73,7 +73,7 @@ def load_chain(yt_link,instructor_embeddings):
     retriever = store.as_retriever(search_kwargs={"k": 3})
     return retriever
 
-yt_link = st.text_input("enter youtube link here!")
+yt_link = st.text_input("enter youtube link here!",key="link")
 
 def get_text():
     input_text = st.text_input("You: ", key="foo")
