@@ -102,4 +102,4 @@ if st.session_state["generated"]:
         message(st.session_state["generated"][i],avatar_style="adventurer",seed=122, key=str(i))
         #message(st.session_state["source"][i], key=str(i+99))
         #message(st.session_state["time_sec"][i], key=str(i+999))
-        message(st.session_state["past"][i], avatar_style="adventurer",seed=120, is_user=True, key=str(i+9999) + "_user")
+        message(st.session_state["past"][i], avatar_style="adventurer",seed=119, is_user=True, key=str(i+9999) + "_user")
