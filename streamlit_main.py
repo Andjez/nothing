@@ -96,6 +96,7 @@ if user_input:
     st.session_state.generated.append(answer)
     st.session_state.source.append(source_01)
     st.session_state.time_sec.append(time_sec_01)
+    st.session_state["foo"] = ""
 
 if st.session_state["generated"]:
     for i in range(len(st.session_state["generated"]) - 1, -1, -1):
